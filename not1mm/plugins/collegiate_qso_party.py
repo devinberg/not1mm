@@ -95,7 +95,7 @@ def set_contact_vars(self):
     """Contest Specific"""
     self.contact["SNT"] = self.sent.text()
     self.contact["RCV"] = self.receive.text()
-    self.contact["Name"] = self.other_1.text()
+    self.contact["CC"] = self.other_1.text()
     self.contact["Comment"] = self.other_2.text()
 
 
