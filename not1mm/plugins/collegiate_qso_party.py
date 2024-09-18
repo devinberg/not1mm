@@ -14,15 +14,15 @@ EXCHANGE_HINT = "State/Province/DX"
 name = "Collegiate QSO Party"
 cabrillo_name = "Collegiate-QSO-Party"
 mode = "BOTH"  # CW SSB BOTH RTTY
-columns = [0, 1, 2, 3, 4, 16, 17]
+#columns = [0, 1, 2, 3, 4, 16, 17]
 columns = [
     "YYYY-MM-DD HH:MM:SS",
     "Call",
     "Freq",
     "Snt",
     "Rcv",
-    "Name",
-    "Comment",
+    "Mult",
+    "PTS",
 ]
 
 # 1 once per contest, 2 work each band, 3 each band/mode, 4 no dupe checking
@@ -122,8 +122,8 @@ def points(self):
 
 def show_mults(self):
     """
-    Multipliers: 1 multiplier per unique state/province/dx
-                 3 multipliers per college/university club call
+    Multipliers: 1x multiplier per unique state/province/dx
+                 3x multiplier per college/university club call
     """
 
 
@@ -138,6 +138,14 @@ def show_qso(self):
 def calc_score(self):
     """Return calculated score"""
     result = self.database.fetch_points()
+    if result is not None:
+        score = result.get("Points", "0")
+        if score is None:
+            score = "0"
+        contest_points = int(score)
+        mults = show_mults(self)
+        return contest_points * mults
+    return 0
 
 
 def adif(self):
